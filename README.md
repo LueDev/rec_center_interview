@@ -155,3 +155,29 @@ These new red tests act as a roadmap – read the **reason:** messages attached 
 # (goldens not used but handy)
 flutter test
 ```
+
+---
+
+## 🚦 Submitting Your Solution
+
+1. **Push your changes** to your forked repository.
+2. **Open a Pull Request (PR)** from your fork’s `main` branch to your fork’s `main` branch (not to the original template repo).
+3. The GitHub Actions workflow will run automatically on your PR.
+4. Your PR will pass if:
+   - At least **13 out of 14 tests** pass.
+   - `flutter analyze` is clean.
+   - Your fork is less than 3 hours old.
+5. If any of these checks fail, the PR will show a red ❌ and you’ll see a message explaining why.
+
+---
+
+## 📝 After You Submit
+
+- We’ll review your PR and reach out to schedule a follow-up call.
+- Feel free to add comments or questions to your PR description.
+
+---
+
+## 🛠️ Troubleshooting
+
+- If you encounter a technical issue (e.g., CI fails for a reason you don’t understand), leave a note in your PR or email me.
