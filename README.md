@@ -84,7 +84,7 @@ GitHub Actions will run; the PR passes only if **all of these are true**:
 
 1. **Analyzer clean** – `flutter analyze` reports no issues.
 2. **Time-limit respected** – the fork is < **3 hours** old (checked in CI).
-3. **Tests:** at least **15 tests pass** (out of the baseline **14** shown
+3. **Tests:** at least **13 tests pass** (out of the baseline **14** shown
    below). One failing test is tolerated so you can leave a stretch goal until
    later, but ≥13 must be green.
 
@@ -126,8 +126,8 @@ Happy coding 🚀
 
 ## 🧪 Test suites you must satisfy
 
-The repo ships with **16 guidance tests** (01–16). CI requires that at least
-**15 tests pass** – one failure is allowed so you can skip a stretch test if
+The repo ships with **14 guidance tests** (01–14). CI requires that at least
+**13 tests pass** – one failure is allowed so you can skip a stretch test if
 you run out of time.
 
 | File                                   | Purpose (inline hints in each file)                       |
