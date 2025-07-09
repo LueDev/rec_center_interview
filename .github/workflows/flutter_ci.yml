@@ -1,0 +1,68 @@
+name: Flutter CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --no-pub
+
+      - name: Enforce 3-hour fork limit
+        if: github.event_name == 'pull_request'
+        run: |
+          fork_created=$(date -d "${{ github.event.pull_request.head.repo.created_at }}" +%s)
+          now=$(date +%s)
+          elapsed=$((now - fork_created))
+          limit=$((3*60*60))      # 3 h
+
+          echo "Fork age: $elapsed seconds"
+          if [ $elapsed -gt $limit ]; then
+            echo "❌ More than 3 hours have elapsed since the fork was created." && exit 1
+          fi
+
+      - name: Run tests (require ≥13 passing)
+        run: |
+          set -eo pipefail
+          # Run tests but allow process to continue even if some fail.
+          flutter test -r compact | tee test_output.txt || true
+
+          # Extract the last summary token `+N` from output.
+          passed=$(grep -oE '\+[0-9]+' test_output.txt | tail -1 | tr -d '+')
+          echo "Passed count: $passed"
+
+          if [ "$passed" -lt 13 ]; then
+            echo "❌ CI requires at least 13 passing tests but got $passed." && exit 1
+          fi
+          echo "✅ Minimum test threshold met."
+
+      - name: Post PR comment with result
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          JOB_STATUS: ${{ job.status }}
+        with:
+          script: |
+            const status = process.env.JOB_STATUS === 'success' ? '✅ **CI passed**' : '❌ **CI failed**';
+            const prNumber = context.payload.pull_request.number;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: `${status} for commit \`${context.sha.substring(0,7)}\`.`
+            });
