@@ -146,8 +146,6 @@ you run out of time.
 | 12 `remote_api_integration_test.dart`  | addEvent/addNews must hit RemoteApi.create\*              |
 | 13 `event_delete_cascade_test.dart`    | deleteEvent cascades to news & hits RemoteApi.deleteEvent |
 | 14 `news_update_api_test.dart`         | updateNews updates state & calls RemoteApi.updateNews     |
-| 15 `reserved`                          | (You may add your own extra test here)                    |
-| 16 `reserved`                          | (One failure allowed)                                     |
 
 These new red tests act as a roadmap – read the **reason:** messages attached to each `expect()` for extra hints. Turn the suite green to complete the assignment.
 
